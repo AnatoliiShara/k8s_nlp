@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nlp-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nlp-app
+  template:
+    metadata:
+      labels:
+        app: nlp-app
+    spec:
+      containers:
+        - name: nlp-app
+          image: toliaba/nlp-app:latest  
+          ports:
+            - containerPort: 5000

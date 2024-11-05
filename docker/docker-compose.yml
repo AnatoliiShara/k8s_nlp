@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Сервіс для NLP-застосунку
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - ENVIRONMENT=production
+
+  # Сервіс для Prometheus
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  # Сервіс для Grafana
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  # Том для зберігання даних Grafana
+  grafana-data:
